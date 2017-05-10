@@ -1,0 +1,2 @@
+cd //share/Web/DBServer
+RAILS_ENV=production rake ts:rebuild

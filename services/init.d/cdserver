@@ -1,0 +1,53 @@
+#! /bin/sh
+
+### BEGIN INIT INFO
+# Provides:          god
+# Required-Start:    $all
+# Required-Stop:     $all
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: starts the god gem server
+# Description:       starts god gem using start-stop-daemon
+### END INIT INFO
+
+PATH=/sbin:/usr/sbin:/bin:/usr/bin
+DAEMON=//home/cds/.rvm/bin/bootup_god
+DAEMON_HOME=//home/cds/DBServer
+DAEMON_LOG=$DAEMON_HOME/log/god.log
+DAEMON_CONFIG=$DAEMON_HOME/cds.god.rb
+DAEMON_OPTS="-c $DAEMON_CONFIG -l $DAEMON_LOG"
+NAME=god
+DESC=god
+USER=cds
+
+test -x $DAEMON || exit 0
+
+case "$1" in
+  start)
+        echo -n "Starting $DESC: "
+        start-stop-daemon -v --chuid cds:cds --start --exec $DAEMON -- start cds $DAEMON_OPTS
+        echo -n "$NAME."
+        ;;
+  stop)
+        echo -n "Stopping $DESC: "
+        start-stop-daemon -v --start --exec $DAEMON -- terminate cds 
+        echo "$NAME."
+        ;;
+  restart|force-reload)
+        echo -n "Restarting $DESC: "
+        start-stop-daemon -v --start --exec $DAEMON -- restart cds 
+        echo "$NAME."
+        ;;
+  reload)
+          echo -n "Reloading $DESC configuration: "
+        start-stop-daemon -v --start --exec $DAEMON -- load cds $DAEMON_OPTS
+          echo "$NAME."
+          ;;
+      *)
+            N=/etc/init.d/$NAME
+            echo "Usage: $N {start|stop|restart|reload|force-reload}" >&2
+            exit 1
+            ;;
+    esac
+
+    exit 0

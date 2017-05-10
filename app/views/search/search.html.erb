@@ -1,0 +1,42 @@
+<%= form_tag('/found', :method => "get", :class => "input_area") do %>
+
+    <%= text_field_tag(:q, @q, :size => 40, :id => 'search_input') %>
+
+    <span style="margin-left: 20px; font-size: large;">
+      Time:<%= radio_button_tag 'sort_mode', 'time', @sort_mode==:time %>
+    Relevance:<%= radio_button_tag 'sort_mode', 'relevance', @sort_mode==:relevance %>
+
+    </span>
+
+    <%= render :partial => 'keywords', :locals => {:current_keywords => @current_keywords} %>
+
+    <p class='submit'> <%= submit_tag("Search") %></p>
+<% end %>
+
+
+
+<% unless @pages_new_document.nil? then %>
+    <% Page.new_document_pages.each do |page| %>
+        <%= render :partial => 'page', :locals => {:page => page} %>
+    <% end %>
+<% end %>
+
+
+
+<% unless @pages.nil? then %>
+    <% current_month=0; current_year=1900 %>
+    <% @pages.each do |page| %>
+        <%p_month=page.document.created_at.month; p_year=page.document.created_at.year %>
+        <% if @sort_mode == :time and (current_month!=p_month or current_year!=p_year) then %>
+            <% current_month=p_month; current_year=p_year %>
+            <%= render :partial => 'show_month_page', :locals => {:month => current_month, :year => current_year} %>
+        <% end %>
+
+        <%= render :partial => 'page', :locals => {:page => page} %>
+
+    <% end %>
+<% end %>
+
+<div style="clear:both;"></div>
+
+<%= will_paginate @pages unless @pages.nil? %>

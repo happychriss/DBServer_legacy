@@ -1,0 +1,11 @@
+<!-- will be yielded into /pages/show_page -->
+|
+<%=link_to(page.short_mime_type, original_path(page.id)) %>
+|
+<div style="float:right;">
+<%= ( link_to "Delete", {:controller => 'documents', :id=>page.id,:action=>'destroy_page'},
+                        {:remote => (page.document_pages_count!=1), :confirm => 'Are you sure?'}) unless page.document.no_delete? %>
+<%= (link_to "Remove", {:controller => 'documents', :id=>page.id,:action=>'remove_page'}, {:remote => true}) if page.document_pages_count>1 %>
+
+</div>
+
