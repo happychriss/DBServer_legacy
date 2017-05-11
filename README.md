@@ -1,18 +1,18 @@
-CleanDesk - Never search for your documents again!
+DocumentBox - Never search for your documents again!
 ==================
 
 Document management running on Cubietruck or any NAS
 ----------------------------
 
-Cleandesk is a document management system for home use. Scan you documents with 1-Click on you scanner and store them 
+DocumentBox is a document management system for home use. Scan you documents with 1-Click on you scanner and store them 
 centralized / searchable. Find documents in seconds with a sneak document preview.
 
-Cleandesk is made for the paranoid, who dont want to sent any unencrpyted information to cloud, so you can reliable keep
+DocumentBox is made for the paranoid, who dont want to sent any unencrpyted information to cloud, so you can reliable keep
 you private infomratoin private.
 
-Cleandesk provides a unique workflow I have developed to easy manage all my priate documents. 
+DocumentBox provides a unique workflow I have developed to easy manage all my priate documents. 
 It supports document you just scan and throwh away, and also documents you  should keep for tax reasons. Documents to be 
-kept can be stored in a single folder, Cleandesk provides an easy way to find this documents later in the folder.
+kept can be stored in a single folder, DocumentBox provides an easy way to find this documents later in the folder.
 
 It has reduced the amount of paper I store at home significant, also the time I spent searching for documents. Comparing 
 the my yearly heating costs is done in a second.
