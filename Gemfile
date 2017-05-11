@@ -24,7 +24,7 @@ end
 gem 'quiet_assets', :group => :development
 gem 'i18n'
 gem 'redis'
-gem 'sidekiq'
+gem 'sidekiq', '3.3.1'
 gem 'clockwork'
 gem 'will_paginate'
 gem 'acts-as-taggable-on', '~> 2.3.1'
