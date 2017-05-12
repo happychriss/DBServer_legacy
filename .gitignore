@@ -105,8 +105,6 @@ backup
 app_support/upload_test
 .gnupg
 app_support/avahi_services/avahi_server.rb.pid
-.ruby-gemset
-.ruby-version
 
 .idea/
 db/sphinx/
