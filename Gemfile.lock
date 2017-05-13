@@ -151,7 +151,7 @@ GEM
     redis-namespace (1.5.3)
       redis (~> 3.0, >= 3.0.4)
     riddle (2.1.0)
-    sass (3.4.23)
+    sass (3.1.18)
     sass-rails (3.2.6)
       railties (~> 3.2.0)
       sass (>= 3.1.10)
@@ -201,7 +201,7 @@ DEPENDENCIES
   acts_as_list (~> 0.1.8)
   aws-s3
   clockwork
-  coffee-rails (~> 3.2.1)
+  coffee-rails (~> 3.2.2)
   dnssd (= 2.0.1)
   god
   i18n
@@ -215,7 +215,8 @@ DEPENDENCIES
   quiet_assets
   rails (~> 3.2.11)
   redis
-  sass-rails (~> 3.2.3)
+  sass (= 3.1.18)
+  sass-rails (~> 3.2.6)
   sidekiq (= 3.3.1)
   specific_install
   thin

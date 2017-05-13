@@ -29,7 +29,7 @@ app_support/batch/DRbProcessorRemoveServer.rb.pid
 
 ## generic files to ignore
 *~
-*.lock
+# *.lock
 *.DS_Store
 *.swp
 *.out
