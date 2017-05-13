@@ -1,13 +1,13 @@
 ---
 server: 1
-user: cds
-group: cds
-chdir: //home/cds/DBServer
+user: docbox
+group: docbox
+chdir: //home/docbox/DBServer
 environment: production
 timeout: 30
 max_conns: 1024
 max_persistent_conns: 100
 require: []
 wait: 30
-socket: //home/cds/DBServer/tmp/thin.0.sock
+socket: //tmp/thin.0.sock
 daemonize: true 
