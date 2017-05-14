@@ -12,7 +12,7 @@ vendor/*
 
 ## Application Specific
 public/docstore/*
-config/environments/development.rb
+#config/environments/development.rb
 #config/environments/production.rb
 config/production.sphinx.conf
 config/development.sphinx.conf
@@ -22,7 +22,7 @@ app_support/upload_test/*
 config/development.sphinx.conf
 config/database.yml
 ../../DocumentBox/DocumentBox-Server/config/s3.yml
-config/private_pub.yml
+# config/private_pub.yml
 config/services.yml
 app_support/batch/DRbProcessor_remote.rb.pid
 app_support/batch/DRbProcessorRemoveServer.rb.pid
@@ -114,3 +114,5 @@ test2.rb
 tmp/
 vendor/
 /config/s3.yml
+!/config/environments/development.rb
+!/config/environments/production.rb
