@@ -1,5 +1,5 @@
 CDSERVER_ROOT="//home/docbox/DBServer"
-CDDAEMON_ROOT="//home/docbox/DBDaemon"
+CDDAEMON_ROOT="//home/docbox/DBDaemons"
 CDSERVER_PID = "//tmp"
 CDSERVER_LOG= "#{CDSERVER_ROOT}/log"
 NGINX_ROOT="/usr/local/nginx/sbin" #config in /usr/local/nginx/conf/nginx.conf
@@ -102,6 +102,7 @@ end
 #scanner server, in case scanner is connected with cubietrack
 God.watch do |w|
   w.start_grace   = 10.seconds
+  w.env           = {'BUNDLE_GEMFILE' => '//home/docbox/DBDaemons/Gemfile'}
   w.name 	  ='scanner_daemon'
   w.group         ='docbox'
   w.dir           = CDDAEMON_ROOT
@@ -112,10 +113,11 @@ end
 
 God.watch do |w|
   w.start_grace   = 10.seconds
+  w.env           = {'BUNDLE_GEMFILE' => '//home/docbox/DBDaemons/Gemfile'}
   w.name 	  ='hardware_daemon'
   w.group         ='docbox'
   w.dir           = CDDAEMON_ROOT
-  w.start         = "bundle exec ruby #{CDDAEMON_ROOT}/cdclient_daemon.rb --service Hardware --uid 102 --prio 0 --subnet 192.168.1 --port 8972 --avahiprefix production --gpio_server ct --gpio_port 8780"
+  w.start         = "bundle exec ruby #{CDDAEMON_ROOT}/cdclient_daemon.rb --service Hardware --uid 102 --prio 0 --subnet 192.168.1 --port 8972 --avahiprefix production --gpio_server pi --gpio_port 8780"
   w.log           = "#{CDDAEMON_ROOT}/cdhardware.log"
   w.keepalive
 end

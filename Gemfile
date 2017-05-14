@@ -40,7 +40,7 @@ gem 'jquery_datepicker'
 gem 'dnssd','2.0.1'
 gem 'jquery-migrate-rails'
 gem 'specific_install'
-
+gem 'rest-client'
 
 
 
