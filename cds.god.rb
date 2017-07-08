@@ -88,7 +88,7 @@ God.watch do |w|
   w.keepalive
 end
 
-#avahi daemon to regester the converter and scanner
+#avahi daemon to register the converter and scanner
 God.watch do |w|
   w.name 	  = "avahi"  
   w.group         ='docbox'
@@ -111,13 +111,25 @@ God.watch do |w|
   w.keepalive
 end
 
+#
+#God.watch do |w|
+#  w.start_grace   = 10.seconds
+#  w.env           = {'BUNDLE_GEMFILE' => '//home/docbox/DBDaemons/Gemfile'}
+#  w.name 	  ='hardware_daemon'
+#  w.group         ='docbox'
+#  w.dir           = CDDAEMON_ROOT
+#  w.start         = "bundle exec ruby #{CDDAEMON_ROOT}/cdclient_daemon.rb --service Hardware --uid 102 --prio 0 --subnet 192.168.1 --port 8972 --avahiprefix production --gpio_server pi --gpio_port 8780"
+#  w.log           = "#{CDDAEMON_ROOT}/cdhardware.log"
+#  w.keepalive
+#end
+
 God.watch do |w|
   w.start_grace   = 10.seconds
   w.env           = {'BUNDLE_GEMFILE' => '//home/docbox/DBDaemons/Gemfile'}
-  w.name 	  ='hardware_daemon'
+  w.name 	  ='converter_daemon'
   w.group         ='docbox'
   w.dir           = CDDAEMON_ROOT
-  w.start         = "bundle exec ruby #{CDDAEMON_ROOT}/cdclient_daemon.rb --service Hardware --uid 102 --prio 0 --subnet 192.168.1 --port 8972 --avahiprefix production --gpio_server pi --gpio_port 8780"
-  w.log           = "#{CDDAEMON_ROOT}/cdhardware.log"
+  w.start         = "bundle exec ruby #{CDDAEMON_ROOT}/cdclient_daemon.rb --service Converter --uid 103 --prio 0 --subnet 192.168.1 --port 8973 --avahiprefix production"
+  w.log           = "#{CDDAEMON_ROOT}/cdconverter.log"
   w.keepalive
 end
