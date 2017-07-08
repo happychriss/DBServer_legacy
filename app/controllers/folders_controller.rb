@@ -31,7 +31,8 @@ class FoldersController < ApplicationController
 
     respond_to do |format|
       if @folder.save
-        redirect_to @folder, notice: 'Folder was successfully created.'
+        redirect_to :action => 'index'
+        return true
       else
         render action: "new"
       end
@@ -43,7 +44,8 @@ class FoldersController < ApplicationController
 
     respond_to do |format|
       if @folder.update_attributes(params[:folder])
-        redirect_to @folder, notice: 'Folder was successfully updated.'
+        redirect_to :action => 'index'
+        return true
       else
         render action: "edit"
 
