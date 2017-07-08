@@ -115,7 +115,7 @@ class Cover < ActiveRecord::Base
 
 
         update_pages=pages_no_cover.collect { |p| p.id }.join(",")
-        pages_with_cover=Page.per_folder_with_cover(9999);
+        pages_with_cover=Page.per_folder_with_cover(folder_id);
         if pages_with_cover.count>0 then
           max_fid=Page.per_folder_with_cover(folder_id).order('fid desc').first.fid
         else
