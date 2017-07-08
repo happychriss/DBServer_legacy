@@ -39,8 +39,8 @@ class BackupWorker
           info_text=" page_id: #{page.id} doc_id: #{page.document.id} pgp_name: #{pgp_name} AmazonBucket: #{AWS_S3['aws_s3_bucket']}"
 
           #### Encrypt file
-          gpg_home_dir=Rails.root.join('.gnupg').to_s
-          command = "gpg -q --homedir #{gpg_home_dir} --no-verbose --yes -a -o #{pgp_name} -r " + AWS_S3['gpg_email_address'] + " -e #{source_name}"
+          # gpg_home_dir=Rails.root.join('.gnupg').to_s ##used in previous version, not sure why
+          command = "gpg -q --no-verbose --yes -a -o #{pgp_name} -r " + AWS_S3['gpg_email_address'] + " -e #{source_name}"
           res=%x[#{command}]
 	  res2=%x[whoami]
    	  logger.info "GPG executed with command: #{command} res: #{res} for user: #{res2}"
