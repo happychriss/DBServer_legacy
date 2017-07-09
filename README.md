@@ -1,3 +1,31 @@
+
+Table of Contents
+=================
+            
+   * [Installation](#installation)
+      * [Prepare the PI](#prepare-the-pi)
+         * [Fixed IP Address for the PI](#fixed-ip-address-for-the-pi)
+         * [Setup the user ‘docbox’](#setup-the-user-docbox)
+      * [Install general SW Packages](#install-general-sw-packages)
+   
+   * [Install DocumentBox Server](#install-documentbox-server)
+      * [Download Source-code](#download-source-code)
+      * [Configure Subnet](#configure-subnet)
+         * [Create Root folder for mass data storage](#create-root-folder-for-mass-data-storage)
+   * [Setup MySQL Database](#setup-mysql-database)
+   * [Configure Backup on Amazon S3](#configure-backup-on-amazon-s3)
+      * [SetUp Amazon S3 Bucket](#setup-amazon-s3-bucket)
+         * [Update Config Files with Credentials](#update-config-files-with-credentials)
+         * [Configure gpg encryption for file-upload and backup](#configure-gpg-encryption-for-file-upload-and-backup)
+   * [Configure nginx](#configure-nginx)
+   * [Install DocumentBox Daemons](#install-documentbox-daemons)
+      * [Download Software from GitHub](#download-software-from-github)
+   * [<strong>Configure Scanner</strong>](#configure-scanner)
+         * [Instruction for S1300](#instruction-for-s1300)
+   * [Run DocumentBox](#run-documentbox)
+
+Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+
 DocumentBox
 ===========
 
@@ -50,10 +78,11 @@ your home network.
 Update following file
 ```bash
 File: //etc/dhcpcd.con  
-\# fixed IP address for PI  
+
+# fixed IP address for PI  
 interface wlan0  
-static ip\_address=192.168.1.105/24  
-static routers=192.168.1.1
+static ip_address=192.168.1.105/24 #enter your IP address  
+static routers=192.168.1.1 # enter your gateway IP address
 ```
 
 ### Setup the user ‘docbox’
@@ -101,7 +130,7 @@ structure
 ```bash
 home/docbox/DBServer #hosts the Web-server
 home/docbox/DBDaemon # hosts the working processes
-//data \# host the scanned images
+//data # host the scanned images
 ```
 
 1.  Install DocumentBox Server
@@ -115,10 +144,10 @@ out of 2 repository: DocBox-Server and DocBox-Daemons. First the Server
 is installed.
 
 Ruby manages the SW packages in “gems” - to prepare for this, login with
+user docbox – execute below commands:
 ```bash
-user docbox – execute below commands and *logout/login again*.
-echo "gem: --no-ri --no-rdoc" &gt;&gt; ~/.gemrc
-echo "export RAILS\_ENV=production" &gt;&gt; ~/.bashrc
+echo "gem: --no-ri --no-rdoc" >> ~/.gemrc
+echo "export RAILS_ENV=production" >> ~/.bashrc
 source ~/.bashrc
 ```
 
@@ -128,7 +157,7 @@ dependencies (gems):
 ```bash
 cd
 git clone https://github.com/happychriss/DocumentBox-Server.git
-mv DocumentBox-Server DBServer (just a short name)
+mv DocumentBox-Server DBServer #just to give the folder a shorter  name - IMPORTANT
 cd DBServer
 bundle install
 rake assets:precompile
@@ -143,7 +172,7 @@ This is only needed when the IP address of the Pi does not start with
 Update below file with your subnet (last 3 group of your PI’s IP)
 
 ```bash
-/home/docbox/DBServer/docbox.god.rb
+File: /home/docbox/DBServer/docbox.god.rb
 SUBNET = “192.168.1”
 ```
 
@@ -203,7 +232,7 @@ production.docbox.db.com
 The s3.yml file needs to be updated with above credentials.
 ```bash
 cd DBServer/config
-cp s3\_example.yml s3.yml #update the credentials from amazon s3 in this file
+cp s3_example.yml s3.yml #update the credentials from amazon s3 in this file
 ```
 
 ### Configure gpg encryption for file-upload and backup
@@ -232,9 +261,9 @@ DocumentBox is using “thin” as Rails WebServer and Nginx as application
 server and for assest management.
 
 ```bash
-Cd DBServer
+cd DBServer
 sudo mv //etc/nginx/nginx.conf //etc/nginx/nginx.conf.bak
-sudo mv app\_support/nginx.conf //etc/nginx/nginx.conf
+sudo mv app_support/nginx.conf //etc/nginx/nginx.conf
 ```
 
 Install DocumentBox Daemons
@@ -270,7 +299,7 @@ Download Software from GitHub
 ```bash
 cd
 git clone https://github.com/happychriss/DocumentBox-Daemons.git
-mv DocumentBox-Daemons/ DBDaemons \# give it a short name
+mv DocumentBox-Daemons/ DBDaemons # give it a short name
 cd DBDaemons
 bundle install
 ```
@@ -293,7 +322,7 @@ described here
 cd
 sudo mkdir /usr/share/sane/epjitsu
 wget https://www.josharcher.uk/static/files/2016/10/1300_0C26.nal
-mv 1300\_0C26.nal /usr/share/sane/epjitsu
+mv 1300_0C26.nal /usr/share/sane/epjitsu
 sudo gpasswd -a docbox scanner
 ```
 
@@ -324,8 +353,8 @@ god start docbox -c docbox.god.rb -D
 # Other useful “god” commands
 
 god start docbox -c docbox.god.rb #without -D will start in background (e.g. add to chron
-god stop docbox \# will stop all services
-god restart docbox \#will start all services
-god restart scanner \#restart a single services
+god stop docbox      # will stop all services
+god restart docbox   # will start all services
+god restart scanner  # will restart a single services
 ```
 
