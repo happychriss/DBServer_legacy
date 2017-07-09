@@ -5,6 +5,7 @@ CDSERVER_LOG= "#{CDSERVER_ROOT}/log"
 NGINX_ROOT="/usr/local/nginx/sbin" #config in /usr/local/nginx/conf/nginx.conf
 THIN_ROOT="/usr/local/bin/thin"
 THIN_CONFIG=File.join(CDSERVER_ROOT,"thin_nginx.yml")
+SUBNET="192.168.1"
 
 
 God.watch do |w|
@@ -106,7 +107,7 @@ God.watch do |w|
   w.name 	  ='scanner_daemon'
   w.group         ='docbox'
   w.dir           = CDDAEMON_ROOT
-  w.start         = "bundle exec ruby #{CDDAEMON_ROOT}/cdclient_daemon.rb --service Scanner --uid 101 --prio 1 --subnet 192.168.1 --port 8971 --avahiprefix production --unpaper_speed y"
+  w.start         = "bundle exec ruby #{CDDAEMON_ROOT}/cdclient_daemon.rb --service Scanner --uid 101 --prio 1 --subnet #{SUBNET} --port 8971 --avahiprefix production --unpaper_speed y"
   w.log           = "#{CDDAEMON_ROOT}/cdscanner.log"  
   w.keepalive
 end
@@ -118,7 +119,7 @@ end
 #  w.name 	  ='hardware_daemon'
 #  w.group         ='docbox'
 #  w.dir           = CDDAEMON_ROOT
-#  w.start         = "bundle exec ruby #{CDDAEMON_ROOT}/cdclient_daemon.rb --service Hardware --uid 102 --prio 0 --subnet 192.168.1 --port 8972 --avahiprefix production --gpio_server pi --gpio_port 8780"
+#  w.start         = "bundle exec ruby #{CDDAEMON_ROOT}/cdclient_daemon.rb --service Hardware --uid 102 --prio 0 --subnet #{SUBNET} --port 8972 --avahiprefix production --gpio_server pi --gpio_port 8780"
 #  w.log           = "#{CDDAEMON_ROOT}/cdhardware.log"
 #  w.keepalive
 #end
@@ -129,7 +130,7 @@ God.watch do |w|
   w.name 	  ='converter_daemon'
   w.group         ='docbox'
   w.dir           = CDDAEMON_ROOT
-  w.start         = "bundle exec ruby #{CDDAEMON_ROOT}/cdclient_daemon.rb --service Converter --uid 103 --prio 0 --subnet 192.168.1 --port 8973 --avahiprefix production"
+  w.start         = "bundle exec ruby #{CDDAEMON_ROOT}/cdclient_daemon.rb --service Converter --uid 103 --prio 0 --subnet #{SUBNET} --port 8973 --avahiprefix production"
   w.log           = "#{CDDAEMON_ROOT}/cdconverter.log"
   w.keepalive
 end
