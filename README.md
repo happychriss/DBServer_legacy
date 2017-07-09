@@ -1,52 +1,31 @@
 
-Table of Contents
-=================
-            
-   * [Installation](#installation)
-      * [Prepare the PI](#prepare-the-pi)
-         * [Fixed IP Address for the PI](#fixed-ip-address-for-the-pi)
-         * [Setup the user ‘docbox’](#setup-the-user-docbox)
-      * [Install general SW Packages](#install-general-sw-packages)
-   
-   * [Install DocumentBox Server](#install-documentbox-server)
-      * [Download Source-code](#download-source-code)
-      * [Configure Subnet](#configure-subnet)
-         * [Create Root folder for mass data storage](#create-root-folder-for-mass-data-storage)
-   * [Setup MySQL Database](#setup-mysql-database)
-   * [Configure Backup on Amazon S3](#configure-backup-on-amazon-s3)
-      * [SetUp Amazon S3 Bucket](#setup-amazon-s3-bucket)
-         * [Update Config Files with Credentials](#update-config-files-with-credentials)
-         * [Configure gpg encryption for file-upload and backup](#configure-gpg-encryption-for-file-upload-and-backup)
-   * [Configure nginx](#configure-nginx)
-   * [Install DocumentBox Daemons](#install-documentbox-daemons)
-      * [Download Software from GitHub](#download-software-from-github)
-   * [<strong>Configure Scanner</strong>](#configure-scanner)
-         * [Instruction for S1300](#instruction-for-s1300)
-   * [Run DocumentBox](#run-documentbox)
-
-Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
-
 DocumentBox
 ===========
 
-DocumentBox is a „home use“ Document Management system that helps you to
+DocumentBox is a OpenSource „home use“ Document Management system that helps you to
 easy scan, file and find your documents. Its running on a mini computer
 as small as a Raspberry Pi 3. A scanner connected to the mini-computers
 allows you to quickly scan your documents and file them directly from
 your mobile phone or tablet.
 
-DocumentBox is made for the paranoid: All data is stored locally – only
+**DocumentBox is made for the paranoid:** 
+
+All data is stored locally – only
 sending your files fully encrypted for backup to the the cloud (Amazon
 S3). The database and all configuration data is also automatically
 encrypted and uploaded to S3.
 
-DocumentBox is made to save your time. A unique work-flow keeps your
-desk clean and lets you find your documents in a second.
+**DocumentBox is made to save your time:**
+ A unique work-flow keeps your desk clean and lets you find your documents in a second.
 
-How does it look like:
+**DocumentBox makes fun to works with:**
+
+Check out, how it looks and feels:
 https://www.youtube.com/watch?v=xCD8ukdc4cc
 
-I have also developed a mobile-app that allows uploading documents using the camera of your mobile phone. The scanned files are stored on the phone and will be uploaded to the DocumentBox server only in your local Wifi network to assure your data privacy. This mobile app is not part of this repository and may be published later.
+I have also developed a mobile-app that allows uploading documents using the camera of your mobile phone. 
+The scanned files are stored on the phone and will be uploaded to the DocumentBox server only in your local
+Wifi network to assure your data privacy. This mobile app is not part of this repository and may be published later.
 
 Technical Overview
 ==================
@@ -66,10 +45,24 @@ You will need at minimum a Raspberry PI3 with sufficient big SD card and
 a standard Linux image (e.g. raspbian-jessie-lite without GUI). Any
 other Linux mini PC with Wifi and USB interface will also work.
 
-1.  Prepare the PI
-    --------------
+Content
+            
+   * [General Installation](#installation)
+      * [Prepare the PI](#prepare-the-pi)
+      * [Install general SW Packages](#install-general-sw-packages)   
+   * [Install DocumentBox Server](#install-documentbox-server)
+   * [Setup MySQL Database](#setup-mysql-database)
+   * [Configure Backup on Amazon S3](#configure-backup-on-amazon-s3)    
+   * [Configure nginx](#configure-nginx)
+   * [Install DocumentBox Daemons](#install-documentbox-daemons)      
+   * [Configure Scanner](#configure-scanner)
+   * [Run DocumentBox](#run-documentbox)
 
-    1.  ### Fixed IP Address for the PI
+Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+
+Prepare the PI
+--------------
+### Fixed IP Address for the PI
 
 You will need to configure the PI with a fixed IP address, to make it
 possible for the SW services to work and to reach the DocumentBox from
@@ -133,11 +126,10 @@ home/docbox/DBDaemon # hosts the working processes
 //data # host the scanned images
 ```
 
-1.  Install DocumentBox Server
-    ==========================
-
-    1.  Download Source-code
-        --------------------
+Install DocumentBox Server
+==========================
+Download Source-code
+--------------------
 
 DocumentBox is hosted on GitHub an written in Ruby On Rails. It consists
 out of 2 repository: DocBox-Server and DocBox-Daemons. First the Server
