@@ -8,6 +8,9 @@ as small as a Raspberry Pi 3. A scanner connected to the mini-computers
 allows you to quickly scan your documents and file them directly from
 your mobile phone or tablet.
 
+
+![logo](https://github.com/happychriss/DocumentBox-Server/app/assets/images/documentbox_pic.jpg)
+
 **DocumentBox is made for the paranoid:** 
 
 All data is stored locally – only
@@ -22,6 +25,8 @@ encrypted and uploaded to S3.
 
 Check out, how it looks and feels:
 https://www.youtube.com/watch?v=xCD8ukdc4cc
+
+![logo](https://github.com/happychriss/DocumentBox-Server/app/assets/images/documentbox.jpg)
 
 I have also developed a mobile-app that allows uploading documents using the camera of your mobile phone. 
 The scanned files are stored on the phone and will be uploaded to the DocumentBox server only in your local
