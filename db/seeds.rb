@@ -5,3 +5,8 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+f=Folder.create(name: '1 - Nur Scannen', short_name: 'ScanOnly', cover_ind: false);
+f.save
+f=Folder.create(name: '2 - Ablegen in Ornder', short_name: 'Ablage', cover_ind: true);
+f.save
+

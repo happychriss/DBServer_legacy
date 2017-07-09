@@ -6,6 +6,5 @@ class Folder < ActiveRecord::Base
   has_many :documents
   has_many :covers
   default_scope :order => 'name'
-  default_scope where ("id < #{Folder::MIGRATION_FOLDER}")
 
 end
