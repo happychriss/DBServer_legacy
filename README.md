@@ -18,12 +18,15 @@ S3). The database and all configuration data is also automatically
 encrypted and uploaded to S3.
 
 **DocumentBox is made to save your time**
- A unique work-flow keeps your desk clean and lets you find your documents in a second.
+
+A unique work-flow keeps your desk clean and lets you find your documents in a second.
 
 **DocumentBox is made to make fun**
 
 Check out, how it looks and feels:
 https://www.youtube.com/watch?v=xCD8ukdc4cc
+
+**DocumentBox is flexible and mobile**
 
 I have also developed a mobile-app that allows uploading documents using the camera of your mobile phone. 
 The scanned files are stored on the phone and will be uploaded to the DocumentBox server only in your local
