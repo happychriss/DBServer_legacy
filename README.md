@@ -46,9 +46,16 @@ scanner and some LEDs for the print process.
 Installation
 ============
 
-You will need at minimum a Raspberry PI3 with sufficient big SD card and
-a standard Linux image (e.g. raspbian-jessie-lite without GUI). Any
-other Linux mini PC with Wifi and USB interface will also work.
+You will need at minimum a Raspberry PI3 with sufficient big SD card.
+
+The below instruction is tested for the following image: 
+
+```bash
+Raspbian Stretch Lite
+```
+
+It is strongly recommend to use this image when following below installation.
+
 
 Content
             
@@ -89,7 +96,7 @@ The installation instructions is assuming a user ‘docbox’ and a folder
 structure as //home/docbox for the file system.
 
 ```bash
-user add docbox
+sudo adduser docbox
 sudo adduser docbox sudo
 ```
 
@@ -97,39 +104,34 @@ Install general SW Packages
 ---------------------------
 
 ```bash
-# ruby components
-sudo apt-get install ruby, ruby-dev, libmysqlclient-dev, nodejs
-sudo apt-get install libavahi-compat-libdnssd-dev
+# ruby components and the basics
+sudo apt-get update  
+sudo apt-get upgrade
+sudo apt-get install ruby ruby-dev nodejs libavahi-compat-libdnssd-dev git nginx redis-server sphinxsearch
 sudo gem install bundler
 
-# other tools
-sudo apt-get install git
-sudo apt-get install mysql-server #write down the password***
-sudo apt-get install nginx
-sudo apt-get install redis-server
-sudo apt-get install sphinxsearch
+# database
+sudo apt-get install mysql-server libmariadbclient-dev
+
+# configure a user for mysql (MariaDB)
+sudo su
+mysql
+# In mysql
+           CREATE USER 'docbox'@'localhost' identified by 'docbox'
+           GRANT ALL PRIVILEGES ON *.* TO 'docbox'@'localhost'
+           flush privileges
 
 # tools supporting scanning and OCR jobs
-sudo apt-get install imagemagick #e.g. for convert
-sudo apt-get install poppler-utils # e.g. for pdf2text
-sudo apt-get install unpaper
-sudo apt-get install tesseract-ocr tesseract-ocr-deu
-sudo apt-get install html2ps
-sudo apt-get install exactimage #for empty-page
-sudo apt-get install oracle-java8-jdk #jused for tika
-Sudo apt-get install sane #is sane-utils enough???
+sudo apt-get install imagemagick poppler-utils unpaper tesseract-ocr tesseract-ocr-deu html2ps exactimage oracle-java8-jdk sane
+
 ```
 
 Overview
 ========
 
-After completing the installation you should have the following folder
-structure
-```bash
-home/docbox/DBServer #hosts the Web-server
-home/docbox/DBDaemon # hosts the working processes
-//data # host the scanned images
-```
+!!! Now, please login with the new user docbox !!!!
+Please check, you should not use "sudo" for any command, only if noted down
+
 
 Install DocumentBox Server
 ==========================
@@ -157,7 +159,6 @@ git clone https://github.com/happychriss/DocumentBox-Server.git
 mv DocumentBox-Server DBServer #just to give the folder a shorter  name - IMPORTANT
 cd DBServer
 bundle install
-rake assets:precompile
 ```
 
 Configure Subnet
@@ -181,10 +182,10 @@ from the DBServer folder to the data folder is also set-up.
 
 ```bash
 sudo mkdir //data
-sudo chown docbox data
+sudo chown docbox //data
 cd //data
 mkdir docstore  #//data/docstore is folder for documents stored locally
-cd DBServer/public
+cd /home/docbox/DBServer
 ln -s //data/docstore/ docstore
 ```
 
@@ -198,10 +199,17 @@ user will need authorization to update data and create tables.
 
 ```bash
 cd DBServer/config
-cp database_example.yml database.yml #enter PWD from above for production environment
+cp database_example.yml database.yml #later you may change your db user or password
+cp s3_example.yml s3.yml #later you wil update here your s3 credentials
 rake db:create
 rake db:schema:load
 rake db:seed #will just create default values in the DB
+```
+
+Comnpile the static assets
+
+```bash
+rake assets:precompile
 ```
 
 Configure Backup on Amazon S3
@@ -218,7 +226,7 @@ You need to create to buckets, one for the files and the second one for
 DB. You will need to collect the s3\_access\_key and s3\_secret\_key to
 enable DocumentBox to upload files.
 
-The buckets should be named:
+The buckets should be named in the production section:
 ```text
 production.docbox.com
 production.docbox.db.com
@@ -226,18 +234,16 @@ production.docbox.db.com
 
 ### Update Config Files with Credentials 
 
-The s3.yml file needs to be updated with above credentials.
+The s3.yml file needs to be updated with above credentials:
 ```bash
-cd DBServer/config
-cp s3_example.yml s3.yml #update the credentials from amazon s3 in this file
+DBServer/config/s3.yml
 ```
 
 ### Configure gpg encryption for file-upload and backup
 
 All data uploaded to Amazon S3 will be encrypted using GPG Linux. Follow instructions by the program and accept the default values.
 ```bash
-gpg –list-keys
-gpg –gen-key
+gpg --gen-key
 ```
 
 Make sure to backup the key-pair, so you can encrypt your data when
@@ -261,6 +267,16 @@ server and for assest management.
 cd DBServer
 sudo mv //etc/nginx/nginx.conf //etc/nginx/nginx.conf.bak
 sudo mv app_support/nginx.conf //etc/nginx/nginx.conf
+```
+
+Configure Sphinx
+===============
+Sphinx is the search engine that creates an index and speeds it up when searching the documents.
+
+```bash
+cd DBServer
+rake ts:rebuild
+rake ts:index
 ```
 
 Install DocumentBox Daemons
@@ -301,6 +317,14 @@ cd DBDaemons
 bundle install
 ```
 
+After completing the installation you should have the following folder
+structure
+```bash
+home/docbox/DBServer #hosts the Web-server
+home/docbox/DBDaemon # hosts the working processes
+//data # host the scanned images
+```
+
 **Configure Scanner**
 =====================
 
@@ -319,7 +343,7 @@ described here
 cd
 sudo mkdir /usr/share/sane/epjitsu
 wget https://www.josharcher.uk/static/files/2016/10/1300_0C26.nal
-mv 1300_0C26.nal /usr/share/sane/epjitsu
+sudo mv 1300_0C26.nal /usr/share/sane/epjitsu
 sudo gpasswd -a docbox scanner
 ```
 
@@ -346,6 +370,9 @@ check the start-up process.
 ```bash
 cd DBServer
 god start docbox -c docbox.god.rb -D
+
+You can reach the server in your local network, e.g:
+http://192.168.1.106:8082
 
 # Other useful “god” commands
 

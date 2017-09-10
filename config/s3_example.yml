@@ -1,24 +1,12 @@
 common: &common
-    aws_s3_access_key: 'asdfasdf'
-    aws_s3_secret_key: 'asdfasdf'
-
-development:
-    <<: *common
-    aws_s3_bucket: 'asfdasdf'
-    aws_s3_db_bucket: 'asdfasdf' #### to be changed
-    gpg_email_address: 'asdfasdf'
-
-test:
-    <<: *common
-    aws_s3_bucket: 'does not exists'
-    aws_s3_db_bucket: 'development.DocBox.com' ##### to be changed
-    gpg_email_address: 'does not exists'
+    aws_s3_access_key: 'YOUR KEY HERE'
+    aws_s3_secret_key: 'YOUR KEY HERE'
 
 production:
     <<: *common
-    aws_s3_bucket: 'asdfasdf' ##### to be changed
-    aws_s3_db_bucket: 'asdfasdf' ##### to be changed
-    gpg_email_address: 'asdfasdf'
+    aws_s3_bucket: 'YOUR BUCKET HERE' ##### to be changed
+    aws_s3_db_bucket: 'YOUR DB BUCKET HERE' ##### to be changed
+    gpg_email_address: 'YOUR EMAIL HERE'
 
 
 

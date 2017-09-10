@@ -15,6 +15,8 @@ production:
   charset_type: 'utf-8' #https://www.stefanwille.com/2012/04/sphinx-search-thinking_sphinx-with-german-umlauts/
   charset_table: "0..9, A..Z->a..z, a..z, U+C4->U+E4, U+D6->U+F6, U+DC->U+FC, U+E4, U+F6, U+FC, U+DF"
   pid_file: //tmp/sphinx.pid
+  binlog_path:  /home/docbox/DBServer/log
+  
 
 
 
