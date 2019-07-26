@@ -5,7 +5,15 @@ gem 'rails', '~> 3.2.11'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'mysql2','0.3.17'
+
+gem 'mysql2',          '~> 0.4.10', :platform => :ruby
+gem 'thinking-sphinx',"~> 4.0"
+gem 'pg',"~> 0.11"
+
+#gem 'mysql2','0.3.17'
+#gem 'activerecord-mysql2-adapter'
+#gem 'thinking-sphinx'
+#gem 'thinking-sphinx', '2.0.14'
 
 
 # Gems used only for assets and not required
@@ -29,8 +37,6 @@ gem 'clockwork'
 gem 'will_paginate'
 gem 'acts-as-taggable-on', '~> 2.3.1'
 gem 'acts_as_list', '~> 0.1.8'
-# gem 'thinking-sphinx'
-gem 'thinking-sphinx', '2.0.14'
 gem 'aws-s3'
 gem 'thin'
 gem 'god'

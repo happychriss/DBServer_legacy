@@ -5,6 +5,22 @@ class Page < ActiveRecord::Base
   require 'aws/s3'
 
   include FileSystem
+  include ThinkingSphinx::Scopes
+
+  #
+  # sphinx_scope(:weight) {
+  #       {:field_weights => {:document_comment => 2, :content => 1}}
+  # }
+  #
+  # default_sphinx_scope :weight
+
+  attr_accessible :content, :document_id, :original_filename, :position, :source, :upload_file, :status, :mime_type, :preview
+  attr_accessor :upload_file
+
+  belongs_to :document
+  belongs_to :org_folder, :class_name => 'Folder'
+  belongs_to :org_cover, :class_name => 'Cover'
+
 
   #### Page Status flow
   UPLOADED = 0 # page just uploaded, waiting for processing
@@ -38,12 +54,6 @@ class Page < ActiveRecord::Base
                    'image/jpeg' => :JPG
   }
 
-  attr_accessible :content, :document_id, :original_filename, :position, :source, :upload_file, :status, :mime_type, :preview
-  attr_accessor :upload_file
-
-  belongs_to :document
-  belongs_to :org_folder, :class_name => 'Folder'
-  belongs_to :org_cover, :class_name => 'Cover'
 
 
   ## all pages per folder
@@ -67,44 +77,14 @@ class Page < ActiveRecord::Base
   }
 
 
-  ### this provides a lit of all pages belonging to a folder without having a cover page printed
-
-  ########################################################################################################
-  ### Sphinx
-  define_index do
-
-    indexes content, :as => :content
-    indexes document.comment, :as => :document_comment
-
-    has status
-    has position, :as => :position, :sortable => true
-    has id, :as => :page_id, :sortable => true
-
-    has document.taggings.tag_id, :as => :tags
-    has document.status, :as => :document_status
-    has document.created_at, :as => :document_created_at, :sortable => true
-    has document.page_count
-    has document.complete_pdf
-    has document_id, :as => :group_document
-
-    set_property :delta => true
-    set_property :min_prefix_len => 4 ##http://sphinxsearch.com/docs/1.10/conf-min-prefix-len.html
-    set_property :field_weights => {:document_comment => 2, :content => 1}
-
-    where "document_id is not null"
-  end
-
-########################################################################################################
-
 
   def self.get_search_config(page_no, sort_mode)
-    search_config = {:match_mode => :extended,
-                     :group_by => 'group_document', #shows only one page, if  more than one pages per document
-                     :group_function => :attr,
+    search_config = {:group_by => :group_document, #shows only one page, if  more than one pages per document
+#                     :group_function => :attr,
                      :page => page_no,
                      :per_page => 30,
                      :star => true,
-                     :include => {:document => :pages},
+                     :sql => {:include => {:document => :pages}},
                      :order => "position ASC" #order in the group
                      #                     :without => {:status => [UPLOADED, UPLOADED_PROCESSED]} #pages not yet sorted and ready will be ignored
     }
@@ -134,7 +114,6 @@ class Page < ActiveRecord::Base
 
     puts "***************************************************"
     puts "SearchConfig: #{search_config}"
-    pages.each_with_weighting { |p, weight| puts "#{p.id} -P#{p.position} W#{weight} - doc: #{p.document.id} - created: #{p.created_at}" }
     puts "***************************************************"
 
     ## Pages ignore, are pages that are listed in top of the search results, in order to avoid listing them twice
@@ -379,4 +358,5 @@ class Page < ActiveRecord::Base
 
 
 end
+
 
