@@ -153,7 +153,7 @@ class Page < ActiveRecord::Base
   def self.uploading_status(mode)
     result=case mode
              when :no_backup then
-               Page.where('backup=0 and document_id IS NOT NULL').count
+               Page.where('backup=false and document_id IS NOT NULL').count
              when :not_processed then
                Page.where("status < #{Page::UPLOADED_PROCESSED}").count
              when :not_converted then
@@ -161,7 +161,7 @@ class Page < ActiveRecord::Base
              when :processing then
                Page.where("status = #{Page::UPLOADED_PROCESSING}").count
              when :no_ocr then
-               Page.where('ocr = 0').count
+               Page.where('ocr = false').count
              else
                'ERROR'
            end

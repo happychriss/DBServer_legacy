@@ -100,6 +100,12 @@ sudo adduser docbox
 sudo adduser docbox sudo
 ```
 
+Little tip, when using ssh to connect to pi, run 
+```bash
+ssh-copy-id docbox@pi
+```
+to directly connect to the pi without repeating password and passphrase.
+
 Install general SW Packages
 ---------------------------
 
