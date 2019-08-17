@@ -2,9 +2,14 @@
 require "bundler/setup"
 require "yaml"
 require "faye"
+require "faye/mixins/logging"
 require "private_pub"
 
 Faye::WebSocket.load_adapter('thin')
+
+#Enable logging
+#Faye.logger = Logger.new(STDOUT)
+
 
 PrivatePub.load_config(File.expand_path("../config/private_pub.yml", __FILE__), ENV["RAILS_ENV"] || "development")
 run PrivatePub.faye_app
@@ -16,9 +21,5 @@ run PrivatePub.faye_app
 #    You could probably spin thin up using the `thin` executable instead, although I've not tried
 # so I don't know what middlewares get added in that case.
 #
-#Enable logging.
-#
-#Ruby: Faye::Logging.log_level = :debug
-#JS: Faye.Logging.logLevel = 'debug'
-#
-#You should be able to see what messages are being sent and received from these logs and debug your setup.
+
+

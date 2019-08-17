@@ -100,7 +100,6 @@ GEM
     faye-websocket (0.10.9)
       eventmachine (>= 0.12.0)
       websocket-driver (>= 0.5.1)
-    ffi (1.11.1)
     god (0.13.7)
     hike (1.2.3)
     http-cookie (1.0.3)
@@ -162,9 +161,6 @@ GEM
       rdoc (~> 3.4)
       thor (>= 0.14.6, < 2.0)
     rake (12.3.3)
-    rb-fsevent (0.10.3)
-    rb-inotify (0.10.0)
-      ffi (~> 1.0)
     rdoc (3.12.2)
       json (~> 1.4)
     redis (4.1.2)
@@ -177,11 +173,7 @@ GEM
     riddle (2.3.2)
     ruby-debug-ide (0.7.0)
       rake (>= 0.8.1)
-    sass (3.7.4)
-      sass-listen (~> 4.0.0)
-    sass-listen (4.0.0)
-      rb-fsevent (~> 0.9, >= 0.9.4)
-      rb-inotify (~> 0.9, >= 0.9.7)
+    sass (3.1.21)
     sass-rails (3.2.6)
       railties (~> 3.2.0)
       sass (>= 3.1.10)
@@ -237,7 +229,7 @@ DEPENDENCIES
   acts_as_list (~> 0.1.8)
   aws-s3
   clockwork
-  coffee-rails
+  coffee-rails (~> 3.2.2)
   debase
   dnssd (= 2.0.1)
   god
@@ -255,8 +247,8 @@ DEPENDENCIES
   redis
   rest-client
   ruby-debug-ide
-  sass
-  sass-rails
+  sass (~> 3.1.10)
+  sass-rails (~> 3.2.6)
   sidekiq (= 3.3.1)
   specific_install
   thin

@@ -16,9 +16,9 @@ gem 'pg',"~> 0.11"
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass'
-  gem 'sass-rails'
-  gem 'coffee-rails'
+  gem 'sass', '~> 3.1.10'
+  gem 'sass-rails',   '~> 3.2.6'
+  gem 'coffee-rails', '~> 3.2.2'
   gem 'jquery-rails'
   gem 'jquery-ui-rails', '~> 5.0.5'
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
