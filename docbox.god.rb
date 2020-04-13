@@ -85,7 +85,8 @@ God.watch do |w|
 
   w.log           = File.join(CDSERVER_LOG, 'private_pub.log')
   w.pid_file      = "#{CDSERVER_PID}/private_pub.pid"
-#   w.stop_signal = 'KILL'
+  w.behavior :clean_pid_file
+  w.stop_signal = 'KILL'
   w.keepalive
 end
 
