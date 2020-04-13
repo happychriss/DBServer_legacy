@@ -4,6 +4,8 @@ class SearchController < ApplicationController
   def search
     @current_keywords||= []
     @sort_mode||= :time
+    TouchSwitch.send_status("welcome")
+
   end
 
   def found

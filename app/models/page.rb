@@ -73,7 +73,7 @@ class Page < ActiveRecord::Base
 
   ## all pages per cover
   scope :per_cover, lambda { |cid|
-    joins("LEFT OUTER JOIN `documents` ON `documents`.`id` = `pages`.`document_id`").joins("LEFT OUTER JOIN covers ON covers.id = documents.cover_id").where("documents.cover_id=#{cid}")
+    joins("LEFT OUTER JOIN documents ON documents.id = pages.document_id").joins("LEFT OUTER JOIN covers ON covers.id = documents.cover_id").where("documents.cover_id=#{cid}")
   }
 
 

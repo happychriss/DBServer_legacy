@@ -2,6 +2,7 @@
 require "bundler/setup"
 require "yaml"
 require "faye"
+require "faye/mixins/logging"
 require "private_pub"
 
 Faye::WebSocket.load_adapter('thin')
@@ -18,7 +19,8 @@ run PrivatePub.faye_app
 #
 #Enable logging.
 #
-#Ruby: Faye::Logging.log_level = :debug
+# Faye.logger = Logger.new(STDOUT)
+# Faye::Logging.log_level = :debug
 #JS: Faye.Logging.logLevel = 'debug'
 #
 #You should be able to see what messages are being sent and received from these logs and debug your setup.

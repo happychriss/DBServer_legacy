@@ -2,9 +2,9 @@ source 'https://rubygems.org'
 
 gem 'rails', '~> 3.2'
 
+
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
-
 
 gem 'mysql2',          '~> 0.4.10', :platform => :ruby #must be installed somehow
 gem  'activerecord-mysql2-adapter'
@@ -14,7 +14,7 @@ gem 'pg',"~> 0.11"
 
 
 # Gems used only for assets and not required
-# in production environments by default.
+# in production environments by defult.
 group :assets do
   gem 'sass'
   gem 'sass-rails'
@@ -24,6 +24,10 @@ group :assets do
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 #   gem 'therubyracer', :platforms => :ruby
   gem 'uglifier'
+end
+
+group :development, :test do
+  gem 'test-unit'
 end
 
 gem 'quiet_assets', :group => :development
@@ -47,8 +51,6 @@ gem 'dnssd','2.0.1'
 gem 'jquery-migrate-rails'
 gem 'specific_install'
 gem 'rest-client'
-
-
 
 
 # To use ActiveModel has_secure_password

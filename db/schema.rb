@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141206212922) do
+ActiveRecord::Schema.define(:version => 20200409205303) do
 
   create_table "connectors", :force => true do |t|
     t.integer  "uid"

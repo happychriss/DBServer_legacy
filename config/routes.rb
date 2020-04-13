@@ -44,16 +44,20 @@ DBServer::Application.routes.draw do
   get 'search_page_id' => 'documents#search_page_id'
   get 'search_archive' => 'documents#search_archive'
   get 'get_server_status' => 'status#get_server_status'
+  post 'get_docbox_status' => 'status#get_docbox_status'
 
   post 'status_drb' => 'status#status_drb'
 
   ## Scanner Controller
   get "scanners/scan_info"
+
   ### called from scanner drb daemon ####
   post 'start_scanner' => 'scanners#start_scanner'
   post 'start_scanner_from_hardware' => 'scanners#start_scanner_from_hardware'
+  post 'start_copy_from_hardware' => 'scanners#start_copy_from_hardware'
   post 'scan_status' =>  'scanners#scan_status'
   post 'scan_error' =>  'scanners#scan_error'
+  post 'scan_info' =>  'scanners#scan_info'
 
   ## ConverterController
   ### called from scanner drb daemon ####

@@ -17,6 +17,10 @@ class ConnectorsController < ApplicationController
     end
   end
 
+  def show
+    redirect_to :action => :index
+  end
+
   # POST /connections
   # POST /connections.json
   def create
@@ -35,7 +39,9 @@ class ConnectorsController < ApplicationController
         sleep(0.5)
         Hardware.blink_ok_status_led
         Hardware.watch_scanner_button_on
-      else
+     when 'TouchSwitch'
+       TouchSwitch.connect(params[:connector])
+     else
         raise "Create Connection with unkown service: #{service}"
     end
 

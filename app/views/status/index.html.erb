@@ -1,5 +1,16 @@
 <h1 xmlns="http://www.w3.org/1999/html">Status Information</h1>
 
+</div>
+<script type='text/javascript'>
+    $('#mydiv').show();
+</script>
+
+<div id='mydiv' style='display:none'>
+  TEST
+</div>
+
+
+
 <div class="status_frame">
 
   <h2>Converter / Scanners Connected</h2>
@@ -22,7 +33,7 @@
     <% end %>
   </table>
 <br/>
-  <%= button_to "Maintain Connections", connectors_path , :method => :get %>
+  <%= button_to "Maintain Connections", connectors_path , :method => :get, :id =>nil %>
 
 </div>
 

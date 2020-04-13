@@ -115,15 +115,18 @@ class Cover < ActiveRecord::Base
 
         update_pages=pages_no_cover.collect { |p| p.id }.join(",")
         pages_with_cover=Page.per_folder_with_cover(folder_id);
+
+
         if pages_with_cover.count>0 then
-          max_fid=Page.per_folder_with_cover(folder_id).order('fid desc').first.fid
+          ## migrating to postgres, has a different order for null values
+          max_fid=Page.per_folder_with_cover(folder_id).order('fid desc nulls last').first.fid
         else
           max_fid=1
         end
 
-
-        self.connection.execute("SET @fid_count = #{max_fid};") #http://stackoverflow.com/questions/6412186/rails-using-sql-variables-in-find-by-sql
-        Page.update_all "org_folder_id=#{folder_id},org_cover_id=#{cover.id},fid=(@fid_count:= @fid_count+ 1)", "id in (#{update_pages})", :order => 'id asc'
+        self.connection.execute("SELECT SETVAL('pages_fid_seq', #{max_fid})") #https://kylewbanks.com/blog/Adding-or-Modifying-a-PostgreSQL-Sequence-Auto-Increment
+#        self.connection.execute("\\set fid_count #{max_fid}") #http://stackoverflow.com/questions/6412186/rails-using-sql-variables-in-find-by-sql
+        Page.update_all "org_folder_id=#{folder_id},org_cover_id=#{cover.id},fid=nextval('pages_fid_seq')", "id in (#{update_pages})", :order => 'id asc'
 
         # update documents (update, condition)
         Document.update_all("cover_id = #{cover.id}", "folder_id = #{folder_id} and cover_id is null")

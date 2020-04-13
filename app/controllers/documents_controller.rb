@@ -7,6 +7,7 @@ class DocumentsController < ApplicationController
 
   def index
     @docs=Document.where('delete_at is not null').order('delete_at asc')
+
   end
 
   def update

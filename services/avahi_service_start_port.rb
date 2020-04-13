@@ -15,7 +15,7 @@ end
 puts "****** Start avahi register***"
 puts "Port:#{port} and Name:Docbox_#{env}"
 $stdout.flush
-DNSSD.register! "Docbox_#{env}", '_docbox._tcp', nil, port
+DNSSD.register! "Docbox_#{env}", "_#{env}_docbox._tcp", nil, port
 puts "****** Completed avahi register***"
 $stdout.flush
 sleep

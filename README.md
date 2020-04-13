@@ -1,12 +1,12 @@
 
 ![logo](https://github.com/happychriss/DocumentBox-Server/blob/master/app/assets/images/documentbox_pic.jpg)
 
-DocumentBox
+DocumentBox for RPI 3/4 and TouchSwitch (new version)
 ===========
 
 DocumentBox is a OpenSource „home use“ Document Management system that helps you to
 easy scan, file and find your documents. Its running on a mini computer
-as small as a Raspberry Pi 3. A scanner connected to the mini-computers
+as small as a Raspberry Pi 3 or 4. A scanner connected to the mini-computers
 allows you to quickly scan your documents and file them directly from
 your mobile phone or tablet.
 
@@ -46,12 +46,12 @@ scanner and some LEDs for the print process.
 Installation
 ============
 
-You will need at minimum a Raspberry PI3 with sufficient big SD card.
+You will need at minimum a Raspberry PI3/4 with sufficient big SD card.
 
 The below instruction is tested for the following image: 
 
 ```bash
-Raspbian Stretch Lite
+Raspbian Stretch and Buster Lite
 ```
 
 It is strongly recommend to use this image when following below installation.
@@ -195,13 +195,13 @@ cd /home/docbox/DBServer
 ln -s //data/docstore/ docstore
 ```
 
-Setup MySQL Database 
+Setup Postgres Database 
 =====================
 
 Ruby on Rails provides support to set-up and create a database. You will
-need user-name and password as selected when installing MySQL and update
+need user-name and password as selected when installing Postgres and update
 it in the file database.yml . Feel free to create a DB new user, the DB
-user will need authorization to update data and create tables.
+user will need authorization to update data and create tables. For setting- up initial Postgres user, follow the standard instructions.
 
 ```bash
 cd DBServer/config
@@ -361,6 +361,12 @@ scanimage -L
 
 Output should be similar to „epjitsu:libusb:001:004' is a FUJITSU
 ScanSnap S1300 scanner“
+ 
+If scanimage only works with sudo user, create a file 55-libsane.rules in folder //etc/udev/rules.d with following content:
+ ```bash
+ ATTRS{idVendor}=="04c5", ATTRS{idProduct}=="11ed", GROUP="scanner", ENV{libsane_matched}="yes"
+ ```
+ 
 
 Run DocumentBox
 ===============

@@ -36,6 +36,16 @@ class StatusController < ApplicationController
 
   ## called by the hardware stack to read the server status and to display if any error
   def get_server_status
-      render :json => Log.check_errors?
+    render :json => Log.check_errors?
+  end
+
+  def get_docbox_status
+    status_summary = Page.count(:group => :status)
+    error = ""
+    if Log.check_errors?
+      error = "!!! ERROR !!!   "
+    end
+    message = error + "U:#{status_summary[Page::UPLOADED].presence || '0'} Cv:#{status_summary[Page::UPLOADED_PROCESSING].presence || '0'} OCR:#{pending_ocr = Page.uploading_status(:no_ocr)} S3:#{Page.uploading_status(:no_backup)}"
+    render :json => message
   end
 end
