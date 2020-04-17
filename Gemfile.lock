@@ -231,6 +231,8 @@ GEM
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.4)
     will_paginate (3.3.0)
+    wrapper (0.1.1)
+      rails (~> 3.0)
     xml-simple (1.1.5)
 
 PLATFORMS
@@ -269,6 +271,7 @@ DEPENDENCIES
   thinking-sphinx (~> 4.0)
   uglifier
   will_paginate
+  wrapper
 
 BUNDLED WITH
    1.17.3

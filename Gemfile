@@ -51,6 +51,7 @@ gem 'dnssd','2.0.1'
 gem 'jquery-migrate-rails'
 gem 'specific_install'
 gem 'rest-client'
+gem 'wrapper'
 
 
 # To use ActiveModel has_secure_password

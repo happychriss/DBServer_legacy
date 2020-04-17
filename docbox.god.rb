@@ -135,3 +135,16 @@ God.watch do |w|
   w.log           = "#{CDDAEMON_ROOT}/cdconverter.log"
   w.keepalive
 end
+
+#touchswitch tst server
+God.watch do |w|
+  w.start_grace   = 10.seconds
+  w.env           = {'BUNDLE_GEMFILE' => '//home/docbox/DBServer/Gemfile'}
+  w.name 	  ='touchswitch_server'
+  w.group         ='docbox'
+  w.dir           = CDSERVER_ROOT
+  w.start         = "bundle exec ruby #{CDSERVER_ROOT}/tst.rb"
+  w.log           = "#{CDSERVER_LOG}/tst.log"
+  w.keepalive
+end
+
