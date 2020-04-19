@@ -68,10 +68,6 @@ module DBServer
     # Enable the asset pipeline
     config.assets.enabled = true
 
-    # Disable asset logging !!http://stackoverflow.com/questions/7471606/dont-log-asset-requests-in-rails-3-1-in-development-mode
-    config.assets.logger = nil
-    config.assets.debug = false
-
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
 

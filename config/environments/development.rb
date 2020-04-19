@@ -33,7 +33,7 @@ DBServer::Application.configure do
   config.assets.compress = false
 
   # Expands the lines which load the assets
-  config.assets.debug = true
+  config.assets.debug = false
 
   ## ITEXT is used vi RJB , code copied from https://github.com/paulschreiber/pdf-merger gem
   ENV['JAVA_HOME']="/usr/lib/jvm/java-6-openjdk-amd64"

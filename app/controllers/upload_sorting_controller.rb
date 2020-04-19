@@ -26,12 +26,15 @@ class UploadSortingController < ApplicationController
           p.add_to_document(@document, position)
         end
 
-
         Log.write_status('ServerCreateDoc', "Created document with #{@document.reload.page_count} pages!")
       rescue
         Log.write_error('ServerCreateDoc', "ERROR creating document: #{@document.errors.full_messages }!")
         raise
       end
+
+    end
+
+    if params.key?(:id_pdf_btn)
 
     end
 

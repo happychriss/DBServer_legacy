@@ -73,11 +73,12 @@ this.SortPages = function () {
     });
 
 
-
+    // if problems are here, the event https://intellij-support.jetbrains.com/hc/en-us/community/posts/360003442619-JS-Event-depreciated-warning-in-inspector
+    // https://api.jquery.com/submit/
     // submit button for upload
-    $('#new_document').submit(function () {
+    $('#new_document').submit(function (event ) {
         $('#sortable2').sortable();
-        $.post($(this).attr('action'), $(this).serialize() + "&" + $('#sortable2').sortable('serialize'), null, "script");
+        $.post($(this).attr('action'), $(this).serialize() + "&" + event.originalEvent.submitter.id+"&" +$('#sortable2').sortable('serialize'), null, "script");
         return false;
     });
 

@@ -1,4 +1,4 @@
-ThinkingSphinx::Index.define :page, :with => :active_record,  :delta => true  do
+ThinkingSphinx::Index.define( :page, :with => :active_record,  :delta => true)  do
 
     indexes content, :as => :content
     indexes document.comment, :as => :document_comment

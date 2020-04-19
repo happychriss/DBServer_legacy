@@ -22,6 +22,31 @@ class Document < ActiveRecord::Base
   DOCUMENT=0 ##document was created based on an uploaded document
   DOCUMENT_FROM_PAGE_REMOVED = 1 ##document was created, as a page was removed from an existing doc
 
+
+  ########################################################################################################
+
+  def self.search_index(search_string, keywords, page_no, sort_mode)
+    ###https://groups.google.com/forum/?fromgroups=#!msg/thinking-sphinx/WvOTN6NABN0/vzKnhx5CIvAJ
+
+    search_config = {:page => page_no,:per_page => 30,:star => true }
+
+      search_config.merge!({:with => {:tags => keywords}}) unless keywords.empty?
+      search_config.merge!({:order => "created_at desc, id DESC"}) if sort_mode==:time
+
+    documents=Document.search(search_string, search_config)
+
+    puts "***************************************************"
+    puts "SearchConfig: #{search_config}"
+    puts "SearchString: #{search_string}"
+
+    return documents
+
+  end
+
+  def cover_page
+    self.pages.where(position:0).first
+  end
+
   def pdf_file
     docs='';self.pages.each  {|p| docs+=' '+p.path(:org)}
     pdf=Tempfile.new(["cd_#{self.id}",".pdf"])

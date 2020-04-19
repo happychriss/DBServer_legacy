@@ -8,10 +8,8 @@ gem 'rails', '~> 3.2'
 
 gem 'mysql2',          '~> 0.4.10', :platform => :ruby #must be installed somehow
 gem  'activerecord-mysql2-adapter'
-
 gem 'thinking-sphinx',"~> 4.0"
-gem 'pg',"~> 0.11"
-
+gem 'pg',"0.20"
 
 # Gems used only for assets and not required
 # in production environments by defult.
@@ -28,11 +26,11 @@ end
 
 group :development, :test do
   gem 'test-unit'
+  gem 'quiet_assets'
+  gem 'debase'
+  gem 'ruby-debug-ide'
 end
 
-gem 'quiet_assets', :group => :development
-gem 'debase', :group => :development
-gem 'ruby-debug-ide', :group => :development
 
 gem 'i18n'
 gem 'redis'

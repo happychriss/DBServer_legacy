@@ -4,8 +4,6 @@ class SearchController < ApplicationController
   def search
     @current_keywords||= []
     @sort_mode||= :time
-    TouchSwitch.send_status("welcome")
-
   end
 
   def found
@@ -16,11 +14,10 @@ class SearchController < ApplicationController
 
     @current_keywords=params[:document].nil? ? []:params[:document][:keyword_list]
 
-    @pages_new_document=Page.new_document_pages ##pages that have been assigned a new document (remove action in document.edit)
-    @pages=Page.search_index(params[:q],@current_keywords, params[:page],@pages_new_document,@sort_mode)
+    @documents_removed=Document.where(status: Document::DOCUMENT_FROM_PAGE_REMOVED)
+    @documents=Document.search_index(params[:q],@current_keywords, params[:page],@sort_mode)
 
     @q=params[:q]
-
 
     render :action => 'search'
 

@@ -79,18 +79,17 @@ class Page < ActiveRecord::Base
 
 
   def self.get_search_config(page_no, sort_mode)
-    search_config = {:group_by => :group_document, #shows only one page, if  more than one pages per document
+    search_config = {#:group_by => :group_document, #shows only one page, if  more than one pages per document
 #                     :group_function => :attr,
                      :page => page_no,
                      :per_page => 30,
                      :star => true,
-                     :sql => {:include => {:document => :pages}},
-                     :order => "position ASC" #order in the group
-                     #                     :without => {:status => [UPLOADED, UPLOADED_PROCESSED]} #pages not yet sorted and ready will be ignored
+                     #           :order => "position ASC" #order in the group
+                     #    :without => {:status => [UPLOADED, UPLOADED_PROCESSED]} #pages not yet sorted and ready will be ignored
     }
 
     # http://rdoc.info/github/freelancing-god/thinking-sphinx/ThinkingSphinx/SearchMethods/ClassMethods
-    (search_config.merge!({:group_clause => "document_created_at desc, id DESC"})) if sort_mode==:time
+  (search_config.merge!({:order => "created_at desc, id DESC"})) if sort_mode==:time
 
 
     return search_config
@@ -104,7 +103,9 @@ class Page < ActiveRecord::Base
     search_config = Page.get_search_config(page_no, sort_mode)
 
     if search_string.nil? or keywords.empty? then
-      pages=Page.search(search_string, search_config)
+      documents=Document.search_for_ids(search_string, search_config)
+
+      pages=P.search(search_string, search_config)
 
     else
       search_config.merge!({:with => {:tags => keywords}})
@@ -114,6 +115,8 @@ class Page < ActiveRecord::Base
 
     puts "***************************************************"
     puts "SearchConfig: #{search_config}"
+    puts "SearchString: #{search_string}"
+
     puts "***************************************************"
 
     ## Pages ignore, are pages that are listed in top of the search results, in order to avoid listing them twice

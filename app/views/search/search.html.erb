@@ -15,24 +15,24 @@
 
 
 
-<% unless @pages_new_document.nil? then %>
-    <% Page.new_document_pages.each do |page| %>
-        <%= render :partial => 'page', :locals => {:page => page} %>
+<% unless @documents_removed.nil? then %>
+    <% @documents_removed.each do |doc| %>
+        <%= render :partial => 'page', :locals => {:page => doc.cover_page} %>
     <% end %>
 <% end %>
 
 
 
-<% unless @pages.nil? then %>
+<% unless @documents.nil? then %>
     <% current_month=0; current_year=1900 %>
-    <% @pages.each do |page| %>
-        <%p_month=page.document.created_at.month; p_year=page.document.created_at.year %>
+    <% @documents.each do |doc| %>
+        <%p_month=doc.created_at.month; p_year=doc.created_at.year %>
         <% if @sort_mode == :time and (current_month!=p_month or current_year!=p_year) then %>
             <% current_month=p_month; current_year=p_year %>
             <%= render :partial => 'show_month_page', :locals => {:month => current_month, :year => current_year} %>
         <% end %>
 
-        <%= render :partial => 'page', :locals => {:page => page} %>
+        <%= render :partial => 'page', :locals => {:page => doc.cover_page} %>
 
     <% end %>
 <% end %>
