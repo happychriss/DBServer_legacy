@@ -6,7 +6,12 @@ $('.page_sort').fadeOut('slow', function () {
 $('a#link_sort_count').text("<%=show_link_pages_sorted%>");
 
 
-
+<%unless @pdf_name=="" %>
+var link = document.getElementById("download_csv");
+link.href = '<%= j download_pdf_path(@document.id)  %>';
+link.download = '<%= j @pdf_name %>';
+link.click();
+<%end %>
 
 
 

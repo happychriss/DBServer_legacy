@@ -76,54 +76,13 @@ class Page < ActiveRecord::Base
     joins("LEFT OUTER JOIN documents ON documents.id = pages.document_id").joins("LEFT OUTER JOIN covers ON covers.id = documents.cover_id").where("documents.cover_id=#{cid}")
   }
 
+  ### Thinking Sphinx
+  after_commit :set_delta_flag
 
-
-  def self.get_search_config(page_no, sort_mode)
-    search_config = {#:group_by => :group_document, #shows only one page, if  more than one pages per document
-#                     :group_function => :attr,
-                     :page => page_no,
-                     :per_page => 30,
-                     :star => true,
-                     #           :order => "position ASC" #order in the group
-                     #    :without => {:status => [UPLOADED, UPLOADED_PROCESSED]} #pages not yet sorted and ready will be ignored
-    }
-
-    # http://rdoc.info/github/freelancing-god/thinking-sphinx/ThinkingSphinx/SearchMethods/ClassMethods
-  (search_config.merge!({:order => "created_at desc, id DESC"})) if sort_mode==:time
-
-
-    return search_config
-  end
-
-  ########################################################################################################
-
-  def self.search_index(search_string, keywords, page_no, pages_ignore, sort_mode)
-    ###https://groups.google.com/forum/?fromgroups=#!msg/thinking-sphinx/WvOTN6NABN0/vzKnhx5CIvAJ
-
-    search_config = Page.get_search_config(page_no, sort_mode)
-
-    if search_string.nil? or keywords.empty? then
-      documents=Document.search_for_ids(search_string, search_config)
-
-      pages=P.search(search_string, search_config)
-
-    else
-      search_config.merge!({:with => {:tags => keywords}})
-      pages=Page.search(search_string, search_config)
+  def set_delta_flag
+    unless self.document.nil?
+      self.document.update_attribute(:delta, true)
     end
-
-
-    puts "***************************************************"
-    puts "SearchConfig: #{search_config}"
-    puts "SearchString: #{search_string}"
-
-    puts "***************************************************"
-
-    ## Pages ignore, are pages that are listed in top of the search results, in order to avoid listing them twice
-    pages.delete_if { |p| pages_ignore.index { |pi| pi.id==p.id } }
-
-    return pages
-
   end
 
   ########################################################################################################
@@ -146,6 +105,15 @@ class Page < ActiveRecord::Base
     return self.document.cover
   end
 
+
+  ### check, if a PDF file for a page exists, can be as original or it was loaded later
+  def pdf_path
+    if self.mime_type=='application/pdf'
+      path(:org)
+    else
+     path(:pdf)
+  end
+  end
 
   def has_document?
     not self.document.nil?
@@ -315,7 +283,10 @@ class Page < ActiveRecord::Base
     Page::PAGE_MIME_TYPES[self.mime_type]
   end
 
-
+  def convert_as_foto?
+    return false if original_filename.nil?
+    original_filename.include? "foto"
+  end
 
   ### if an original as JPG already exists and this is called a second time, the PDF will be stored
   def save_file(file_path,file_type)

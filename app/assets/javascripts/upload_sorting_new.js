@@ -78,7 +78,14 @@ this.SortPages = function () {
     // submit button for upload
     $('#new_document').submit(function (event ) {
         $('#sortable2').sortable();
-        $.post($(this).attr('action'), $(this).serialize() + "&" + event.originalEvent.submitter.id+"&" +$('#sortable2').sortable('serialize'), null, "script");
+        let button_id = event.originalEvent.submitter.id;
+        if (button_id=='id_pdf_btn') {
+            if (!(window.confirm("No backup, only PDF is generated"))) {
+                return false;
+            }
+        }
+
+        $.post($(this).attr('action'), $(this).serialize() + "&" + button_id+"&" +$('#sortable2').sortable('serialize'), null, "script");
         return false;
     });
 

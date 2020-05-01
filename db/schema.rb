@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20200409205303) do
+ActiveRecord::Schema.define(:version => 20200426202452) do
 
   create_table "connectors", :force => true do |t|
     t.integer  "uid"
@@ -41,7 +41,10 @@ ActiveRecord::Schema.define(:version => 20200409205303) do
     t.boolean  "complete_pdf",    :default => false
     t.integer  "folder_id"
     t.integer  "cover_id"
+    t.boolean  "delta",           :default => true,  :null => false
   end
+
+  add_index "documents", ["delta"], :name => "index_documents_on_delta"
 
   create_table "folders", :force => true do |t|
     t.string   "name"
@@ -69,12 +72,12 @@ ActiveRecord::Schema.define(:version => 20200409205303) do
     t.integer  "document_id"
     t.integer  "position",          :default => 0,     :null => false
     t.integer  "status",            :default => 0,     :null => false
-    t.boolean  "delta",             :default => true,  :null => false
     t.boolean  "backup",            :default => false, :null => false
     t.integer  "org_cover_id"
     t.integer  "fid"
     t.string   "mime_type"
     t.boolean  "ocr",               :default => false
+    t.boolean  "pdf_exists",        :default => false
   end
 
   create_table "taggings", :force => true do |t|

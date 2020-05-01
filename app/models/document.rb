@@ -10,8 +10,7 @@ class Document < ActiveRecord::Base
   accepts_nested_attributes_for :pages, :allow_destroy => true
   acts_as_taggable_on :keywords
 
-  ### Thinking Sphinx
-  after_commit :set_delta_flag
+
 
   before_update :update_status_new_document
   before_save :update_expiration_date
@@ -21,6 +20,7 @@ class Document < ActiveRecord::Base
   #### Status
   DOCUMENT=0 ##document was created based on an uploaded document
   DOCUMENT_FROM_PAGE_REMOVED = 1 ##document was created, as a page was removed from an existing doc
+  DOCUMENT_PDF_ONLY = 2
 
 
   ########################################################################################################
@@ -30,14 +30,15 @@ class Document < ActiveRecord::Base
 
     search_config = {:page => page_no,:per_page => 30,:star => true }
 
-      search_config.merge!({:with => {:tags => keywords}}) unless keywords.empty?
+      search_config.merge!({:with => {:tags => keywords.map!{|e| e.to_i}}}) unless keywords.empty?
       search_config.merge!({:order => "created_at desc, id DESC"}) if sort_mode==:time
 
     documents=Document.search(search_string, search_config)
 
-    puts "***************************************************"
+    puts "Document ******************************************"
     puts "SearchConfig: #{search_config}"
     puts "SearchString: #{search_string}"
+    puts "***************************************************"
 
     return documents
 
@@ -48,7 +49,7 @@ class Document < ActiveRecord::Base
   end
 
   def pdf_file
-    docs='';self.pages.each  {|p| docs+=' '+p.path(:org)}
+    docs='';self.pages.each  {|p| docs+=' '+p.pdf_path}
     pdf=Tempfile.new(["cd_#{self.id}",".pdf"])
     java_merge_pdf="java -classpath './java_itext/.:./java_itext/itext-5.3.5/*' MergePDF"
     res=%x[#{java_merge_pdf} #{docs} #{pdf.path}]
@@ -63,7 +64,7 @@ class Document < ActiveRecord::Base
     self.page_count=self.pages.count
 
     ### if documents has pages with non-pdf-mime type, no complete PDF page can be generated
-    if self.pages.where("mime_type <> '#{Page::PAGE_MIME_TYPES.key(:PDF)}'").count>0
+    if self.pages.where("pdf_exists=false").count>0
         self.complete_pdf=false
     else
       self.complete_pdf=true
@@ -92,11 +93,7 @@ class Document < ActiveRecord::Base
 ##http://stackoverflow.com/questions/4902804/using-delta-indexes-for-associations-in-thinking-sphinx
 
 
-  def set_delta_flag
-    self.pages.update_all("delta=1")
-    Page.define_indexes
-    Page.index_delta
-  end
+
 
   def update_status_new_document
     self.status=DOCUMENT if self.status_was==DOCUMENT_FROM_PAGE_REMOVED

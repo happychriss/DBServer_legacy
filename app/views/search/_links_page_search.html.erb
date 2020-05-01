@@ -1,12 +1,13 @@
 <!-- will be yielded into /pages/show_page -->
-<% if  page.document.complete_pdf? and page.document_pages_count>1%>
+
+  <% if  page.document.complete_pdf?  %>
    |
     <%= link_to("PDF", pdf_document_path(page.document.id)) %>
 
- <%else%>
-    |
+  <%else%>
     <%= link_to(page.short_mime_type, original_path(page.id))%>
-<%end%>
+  <%end%>
+
 
 
 <div style="float:right;">

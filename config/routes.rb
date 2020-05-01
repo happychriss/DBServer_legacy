@@ -8,6 +8,7 @@ DBServer::Application.routes.draw do
   get 'show_status' => 'status#show_status'
   get 'sorting/destroy_page' => 'upload_sorting#destroy_page'
   get 'show_cover_pages/(:id)' => 'covers#show_cover_pages'
+  get 'upload_sorting/download_pdf(:id)' => 'upload_sorting#download_pdf', :as => :download_pdf
 
   ### Upload from Client
   post 'create_from_scanner_jpg' => 'uploads#create_from_scanner_jpg', :as => :create_from_scanner_jpg
@@ -18,7 +19,8 @@ DBServer::Application.routes.draw do
 
 
   ## Search Controller, non HABTM
-  match 'pdf/:id' => 'search#show_pdf_document', :as => :pdf_document
+  match 'pdf_doc/:id' => 'search#show_pdf_document', :as => :pdf_document
+  match 'pdf/:id' => 'search#show_pdf_page', :as => :pdf_page
   match 'jpg/:id' => 'search#show_jpg_page', :as => :jpg_page
   match 'rtf/:id' => 'search#show_rtf', :as => :rtf
   match 'original/:id' => 'search#show_original', :as => :original

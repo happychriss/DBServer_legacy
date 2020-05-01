@@ -7,6 +7,8 @@ class BackupWorker
 
   sidekiq_options :retry => false
 
+  ## Backup for all documents in status "0" with pages in status "uploaded and processed"
+  # we dont want to update pages that are homeless (status from page removed or PDF only)
   def perform(document_id=nil)
 
     begin
@@ -18,10 +20,12 @@ class BackupWorker
       connection= AWS::S3::Base.establish_connection!(:access_key_id => AWS_S3['aws_s3_access_key'], :secret_access_key => AWS_S3['aws_s3_secret_key'])
 
       if document_id.nil? then
-        backup_pages=Page.where("backup = 0 and status=#{Page::UPLOADED_PROCESSED}")
+         #only in status "0" docs should be sent to backup - can be done in
+        backup_pages=Page.where(backup:false,status:Page::UPLOADED_PROCESSED,document_id: Document.select(:id).where(status:Document::DOCUMENT) )
+#        backup_pages=Page.where("backup = 0 and status=#{Page::UPLOADED_PROCESSED}")
         logger.info "### LOAD DAEMON:---Start Uploading for pages without backup, count: #{backup_pages.count} pages ------------"
       else
-        doc=Document.find(document_id)
+        doc=Document.where(status:Document::DOCUMENT,id:document_id)
         logger.info "### LOAD DAEMON:---Start Uploading for document #{doc.id} with #{doc.page_count} pages ------------"
         backup_pages=doc.pages
       end

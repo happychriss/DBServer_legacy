@@ -9,6 +9,16 @@ class Converter
   end
 
 
+  def self.run_pdf_creation(document_id)
+
+    document=Document.find(document_id)
+
+    if Converter.connected? then
+      puts "Start remote call: Processing PDF convertion file remote: #{document.id} with  #{document.pages.count} pages"
+
+    end
+  end
+
   def self.run_conversion(page_ids)
 
     page_ids.each do |page_id|
@@ -25,7 +35,7 @@ class Converter
 
         ### REMOTE CALL via DRB - the server can run on any server: distributed ruby
 
-        Converter.get_drb.run_conversion(scanned_jpg,page.short_mime_type, page.source, page.id)
+        Converter.get_drb.run_conversion(scanned_jpg,page.short_mime_type, page.source, page.id,page.convert_as_foto?)
 
         puts "xx complete remote call to DRB"
 

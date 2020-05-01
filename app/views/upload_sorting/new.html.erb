@@ -60,6 +60,7 @@
               </span>
             </div>
             </br></br>
+            <!------- check Javascripts, upload_search_sorting --->
             <%= f.submit "Upload", :id => "id_upload_btn", :name => "name_upl" %>
             <%= f.submit "PDF", :id => "id_pdf_btn", :name => "name_pdf" %>
           </div>
@@ -71,7 +72,8 @@
 
 
 </div>
-
+<!--- This is used for the PDF download, so the javascript has an option to create a hidden link --->
+<a id = "download_csv" hidden></a>
 <%= subscribe_to "/converted_page" %> <!-- from worker when jpg was processed-->
 <%= subscribe_to "/scanner_status_update" %> <!-- from scanner during scanning-->
 <%= subscribe_to "/scanner_jpp_upload" %> <!-- from scanner when jpg was uploaded-->

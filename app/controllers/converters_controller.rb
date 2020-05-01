@@ -33,10 +33,15 @@ class ConvertersController < ApplicationController
     page.status=Page::UPLOADED_PROCESSED
     page.mime_type='application/pdf' if page.source==Page::PAGE_SOURCE_SCANNED or page.source==Page::PAGE_SOURCE_MOBILE
     page.ocr=true
+    ### check if we have a PDF for the page available, either as org file or created in addition
+    if page.mime_type=='application/pdf' or not params[:page][:pdf_data].nil?
+      page.pdf_exists=true
+    end
+
+    page.save_file(params[:page][:org_data], :org) ##this is pdf in case of scanned, otherwise JPG
+    page.save_file(params[:page][:pdf_data], :pdf) unless params[:page][:pdf_data]=="" #if JPG, this is the PDF as extra
+
     page.save!
-
-    page.save_file(params[:page][:pdf_data], :org)
-
 
     push_app_status ## send status-update to application main page via private_pub gem, fayes,
     push_converted_page(page)

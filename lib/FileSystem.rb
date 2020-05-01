@@ -17,6 +17,8 @@ module FileSystem
                                         '.gpg'
                                      when :org
                                        '.org'
+                                   when :pdf
+                                     '.pdf'
                                       when :all
                                       '*.*'
                                    end

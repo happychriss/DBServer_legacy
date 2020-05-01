@@ -41,11 +41,9 @@ end
     @page=Page.find(params[:id])
   end
 
-  def show_jpg_page
+  def show_pdf_page
     page=Page.find(params[:id])
-    jpg=page.jpg_file
-    send_file(jpg.path, :type => 'application/jpg', :page => '1')
-    jpg.close
+    send_file(page.pdf_path, :type => 'application/pdf', :page => '1')
     return
   end
 
@@ -58,11 +56,9 @@ end
   end
 
   def show_original
-    @page=Page.find(params[:id])
-
-    data=File.read(@page.path(:org))
-    send_data( data, :filename => @page.original_filename,:type => @page.mime_type, :page => '1' )
-
+    page=Page.find(params[:id])
+    data=File.read(page.path(:org))
+    send_data( data, :filename => page.original_filename,:type => page.mime_type, :page => '1' )
     return
   end
 
