@@ -2,6 +2,9 @@ require 'ServiceConnector'
 
 class Converter
 
+  CONV_FLAG_PDF_AS_ORG = 1
+  CONV_FLAG_AS_LETTER = 2
+
   extend ServiceConnector ##provides methods to connect to remote drb services
 
   def self.service_name
@@ -35,9 +38,16 @@ class Converter
 
         ### REMOTE CALL via DRB - the server can run on any server: distributed ruby
 
-        Converter.get_drb.run_conversion(scanned_jpg,page.short_mime_type, page.source, page.id,page.convert_as_foto?)
+        ## Determine converter flags
+        converter_flags=0
+        converter_flags=converter_flags+CONV_FLAG_AS_LETTER unless page.convert_as_foto?
+        converter_flags=converter_flags+CONV_FLAG_PDF_AS_ORG if page.calc_pdf_as_org?
+        puts "Converter-Flags:"+ converter_flags.to_s
 
-        puts "xx complete remote call to DRB"
+
+        Converter.get_drb.run_conversion(scanned_jpg,page.short_mime_type, converter_flags, page.id)
+
+        puts "Completed remote call to DRB"
 
       else
 

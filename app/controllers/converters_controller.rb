@@ -11,7 +11,7 @@ class ConvertersController < ApplicationController
 
 
   ### called from converter, when preview images are created
-  def convert_upload_jpgs
+  def convert_upload_preview_jpgs
 
     page=Page.find(params[:page][:id])
     page.save!
@@ -31,10 +31,11 @@ class ConvertersController < ApplicationController
     page=Page.find(params[:page][:id])
     page.content=params[:page][:content]
     page.status=Page::UPLOADED_PROCESSED
-    page.mime_type='application/pdf' if page.source==Page::PAGE_SOURCE_SCANNED or page.source==Page::PAGE_SOURCE_MOBILE
+    page.mime_type='application/pdf' if page.calc_pdf_as_org?
     page.ocr=true
+
     ### check if we have a PDF for the page available, either as org file or created in addition
-    if page.mime_type=='application/pdf' or not params[:page][:pdf_data].nil?
+    if page.calc_pdf_as_org? or params[:page][:pdf_data]!=""
       page.pdf_exists=true
     end
 

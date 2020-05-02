@@ -1,28 +1,29 @@
 module FileSystem
+
+  def get_file_extension(type)
+    case type
+    when :jpg
+      '.jpg'
+    when :m_jpg
+      '_m.jpg'
+    when :s_jpg
+      '_s.jpg'
+    when :txt
+      '.txt'
+    when :gpg
+      '.gpg'
+    when :org
+      '.org'
+    when :pdf
+      '.pdf'
+    when :all
+      '*.*'
+    end
+  end
+
   def file_name(type)
     #new_file_base_name=self.id.to_s + '_' + self.original_filename.chomp(File.extname(self.original_filename))
-
-    new_file_base_name=self.id.to_s
-
-    file_name=new_file_base_name + case type
-                                     when :jpg
-                                       '.jpg'
-                                     when :m_jpg
-                                       '_m.jpg'
-                                     when :s_jpg
-                                       '_s.jpg'
-                                     when :txt
-                                       '.txt'
-                                     when :gpg
-                                        '.gpg'
-                                     when :org
-                                       '.org'
-                                   when :pdf
-                                     '.pdf'
-                                      when :all
-                                      '*.*'
-                                   end
-    return file_name
+    self.id.to_s + get_file_extension(type)
 
   end
 

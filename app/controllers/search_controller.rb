@@ -43,23 +43,20 @@ end
 
   def show_pdf_page
     page=Page.find(params[:id])
-    send_file(page.pdf_path, :type => 'application/pdf', :page => '1')
-    return
+    send_file(page.pdf_path, :filename => page.pretty_filename(:pdf),:type => 'application/pdf', :page => '1')
   end
 
   def show_pdf_document
     document=Document.find(params[:id])
     pdf=document.pdf_file
-    send_file(pdf.path, :type => 'application/pdf', :page => '1')
+    send_file(pdf.path, :filename => document.pretty_filename,:type => 'application/pdf', :page => '1')
     pdf.close
-    return
   end
 
   def show_original
     page=Page.find(params[:id])
     data=File.read(page.path(:org))
-    send_data( data, :filename => page.original_filename,:type => page.mime_type, :page => '1' )
-    return
+     send_data( data, :filename => page.pretty_filename(:org),:type => page.mime_type, :page => '1' )
   end
 
   def show_document_pages

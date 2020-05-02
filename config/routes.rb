@@ -64,7 +64,7 @@ DBServer::Application.routes.draw do
   ## ConverterController
   ### called from scanner drb daemon ####
   post 'convert_status' =>  'converters#convert_status'
-  post 'convert_upload_jpgs' =>  'converters#convert_upload_jpgs'
+  post 'convert_upload_preview_jpgs' =>  'converters#convert_upload_preview_jpgs'
   post 'convert_upload_pdf' =>  'converters#convert_upload_pdf'
 
   resources :folders
