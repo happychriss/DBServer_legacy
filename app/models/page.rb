@@ -122,7 +122,7 @@ class Page < ActiveRecord::Base
     if source == Page::PAGE_SOURCE_UPLOADED
       fn = File.basename(original_filename)
     else
-      if self.document.comment.length > 0
+      if !self.document.comment.nil? and self.document.comment.length > 0
         fn = self.document.comment[0, 20].gsub(" ", "_").gsub('ä', 'a').gsub('ö', 'o').gsub('ü', 'u').chars.select(&:ascii_only?).join+"_"+(position+1).to_s
       else
         fn = "docbox_d#{document.id}_p#{id}_#{created_at.strftime("%Y%m%d")}"+"_"+(position+1).to_s
