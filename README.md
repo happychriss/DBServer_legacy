@@ -1,7 +1,9 @@
+LEGACY Version using Rails v3.
+Please check out: https://github.com/happychriss/DocumentBox-Server
 
 ![logo](https://github.com/happychriss/DocumentBox-Server/blob/master/app/assets/images/documentbox_pic.jpg)
 
-DocumentBox for RPI 3/4 and TouchSwitch (new version)
+DocumentBox for RPI 3/
 ===========
 
 DocumentBox is a OpenSource „home use“ Document Management system that helps you to
