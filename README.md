@@ -1,4 +1,6 @@
-LEGACY Version using Rails v3.
+LEGACY Version using Rails v3 - not maintained anymore
+==================
+
 Please check out: https://github.com/happychriss/DocumentBox-Server
 
 ![logo](https://github.com/happychriss/DocumentBox-Server/blob/master/app/assets/images/documentbox_pic.jpg)
